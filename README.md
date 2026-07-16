@@ -1,4 +1,4 @@
-1.Gün
+
 
 # 💰 Kişisel Gelir-Gider Takip Uygulaması (Personal Income-Expense Tracker)
 
