@@ -55,16 +55,27 @@ Arka uç, Swagger ile belgelenmiş RESTful API uç noktalarını dışarıya sun
 
 ## 📅 20 Günlük Geliştirme Yol Haritası
 
-| Gün | Aşama | Tamamlanan Görevler |
+| Gün | Aşama | Planlanan Çalışma ve Teknik Detaylar |
 | :---: | :--- | :--- |
-| **1-2** | **Analiz & Tasarım** | Gereksinim analizi, DB Şemasının tasarlanması ve Git deposunun kurulması. |
-| **3-5** | **Çekirdek Backend Kurulumu** | Web API projesinin oluşturulması, Entity tasarımı, DBContext yapılandırması ve Migration işlemleri. |
-| **6-7** | **Kategori Servisleri** | Kategori CRUD uç noktalarının geliştirilmesi, validasyonlar ve veritabanı tohumlama (seeding). |
-| **8-10**| **İşlem Servisleri** | Sıkı DTO eşleştirmesi ile eksiksiz İşlem (Transaction) CRUD mantığının yazılması. |
-| **11-13**| **Filtreler & Dashboard**| Tarih/Kategori sorgu parametrelerinin entegrasyonu, Dashboard hesaplama mantığı ve genel Hata Yönetimi (Global Exception Handling). |
-| **14-15**| **Ön Uç Çekirdeği** | Angular çalışma alanının kurulması, yönlendirme (routing) yapısı ve İşlem Tablosu bileşeni. |
-| **16-17**| **Formlar & Yönetim** | Gerçek zamanlı arayüz doğrulamalarına sahip reaktif İşlem & Kategori ekleme/güncelleme formları. |
-| **18**  | **Dashboard Entegrasyonu**| Dinamik hesaplamaları ve filtreleme kontrollerini gösteren duyarlı (responsive) gösterge paneli widget'ları. |
-| **19-20**| **Kalite Kontrol & Teslim** | Kod iyileştirmeleri (isimlendirmelerin tamamen İngilizceye refaktör edilmesi), hata düzeltmeleri ve README dosyasının hazırlanması. |
+| **1** | **Analiz** | **Gereksinim Analizi ve Sürüm Kontrolü:** Proje gereksinimlerinin detaylı analizi, yapılacakların önceliklendirilmesi ve GitHub üzerinde sürüm kontrol sisteminin kurulması. |
+| **2** | **Analiz** | **Veritabanı Modelleme:** İlişkisel veritabanı şemasının tasarlanması, `Category` ve `Transaction` tabloları arasında bire-çok (1:N) ilişkinin kurulması. |
+| **3** | **Backend** | **API Altyapısının Kurulması:** ASP.NET Core Web API projesinin oluşturulması; Entity Framework Core, SQL Server ve gerekli NuGet paketlerinin kurulması. |
+| **4** | **Backend** | **Veritabanı Modellemesi (ORM):** Veritabanı tablolarına karşılık gelen C# Entity sınıflarının oluşturulması ve `DbContext` yapısının yapılandırılması. |
+| **5** | **Backend** | **Veritabanı Göçü (Migration):** EF Core Migration mekanizması kullanılarak şemanın SQL Server üzerinde fiziksel veritabanına dönüştürülmesi ve kurulması. |
+| **6** | **Backend** | **Kategori Listeleme & Ekleme Servisleri:** Kategori yönetimi için listeleme ve ekleme servislerinin, ilgili API uç noktalarının (Endpoints) geliştirilmesi. |
+| **7** | **Backend** | **Kategori Güncelleme & Silme Servisleri:** Mevcut kategorilerin güncellenmesi ve silinmesi işlemlerinin kodlanarak kategori servislerinin tamamlanması. |
+| **8** | **Backend** | **İşlem Ekleme Servisi:** Kullanıcının gelir veya gider kayıtlarını sisteme eklemesini sağlayan transaction ekleme servisinin geliştirilmesi. |
+| **9** | **Backend** | **İşlem Listeleme & Detay Servisleri:** Eklenen tüm finansal işlemlerin listelenmesini ve tek bir işlemin detaylarının getirilmesini sağlayan servislerin kodlanması. |
+| **10** | **Backend** | **İşlem Güncelleme & Silme Servisleri:** Gelir ve gider kayıtlarının güncellenmesi ve silinmesini sağlayan servislerin geliştirilerek tam işlem CRUD döngüsünün kurulması. |
+| **11** | **Backend** | **Gelişmiş Filtreleme Altyapısı:** İşlemlerin tarih aralığına ve kategori türüne göre dinamik olarak filtrelenmesini sağlayan sorgu parametrelerinin API'ye entegre edilmesi. |
+| **12** | **Backend** | **Dashboard Summary API:** Gösterge paneli için Toplam Gelir, Toplam Gider ve Kalan Bakiye değerlerini dinamik hesaplayarak dönecek olan özet API servisinin yazılması. |
+| **13** | **Backend** | **Validasyon & Hata Yönetimi:** Model doğrulama kurallarının (Validation) tamamlanması ve uygulamada oluşabilecek hatalar için backend hata mesajlarının düzenlenmesi. |
+| **14** | **Frontend** | **Angular SPA Kurulumu:** Angular projesinin oluşturulması, temel sayfa yapısının, yönlendirmelerin (Routing) ve arayüz kütüphanelerinin kurulması. |
+| **15** | **Frontend** | **İşlem Listeleme Ekranı:** API'den gelen gelir-gider verilerinin reaktif (RxJS) olarak çekilmesi ve kullanıcıya dinamik bir tablo yapısında sunulacağı arayüzün geliştirilmesi. |
+| **16** | **Frontend** | **Reaktif Form Yönetimi:** Yeni işlem ekleme ve mevcut işlemleri düzenleme işlemlerini yürütecek, reaktif doğrulamalara sahip formların geliştirilmesi. |
+| **17** | **Frontend** | **Kategori Yönetim Ekranı:** Kategorilerin listelendiği, yeni kategori tanımlama ve güncelleme işlemlerinin yapılabildiği arayüz bileşenlerinin kodlanması. |
+| **18** | **Frontend** | **Dashboard & Filtreleme UI:** Toplam gelir, gider ve bakiye kartlarını gösteren özet ekranın ve dinamik tarih/kategori filtreleme alanlarının geliştirilmesi. |
+| **19** | **Teslim** | **Entegrasyon Testleri & Refaktör:** Frontend-Backend entegrasyonunun uçtan uca test edilmesi, hata ayıklama (Bug-Fix) süreçleri ve kod temizliğinin yapılması. |
+| **20** | **Teslim** | **README & Proje Kapanışı:** GitHub üzerindeki README.md belgesinin son halinin hazırlanması, tüm teslim dosyalarının paketlenmesi ve 10 dakikalık teknik sunumun hazırlanması. |
 
 ---
