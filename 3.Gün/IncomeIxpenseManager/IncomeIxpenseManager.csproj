@@ -5,7 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>IncomeIxpenseManager</RootNamespace>
-        <UserSecretsId>IncomeIxpenseManager-LocalDevelopment</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
