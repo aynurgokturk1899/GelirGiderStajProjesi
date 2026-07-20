@@ -21,13 +21,6 @@ Bu klasör yalnızca ASP.NET Core Web API projesinin oluşturulması ve ilerleye
 - `Swashbuckle.AspNetCore` 10.2.3
 - `BCrypt.Net-Next` 4.2.0
 
-## Bu aşamaya dahil olmayanlar
-
-- Entity sınıfları ve `DbContext`
-- Migration ve veritabanı kurulumu
-- Kayıt ve giriş endpoint'leri
-- JWT üretme ve doğrulama kodları
-
 ## Çalıştırma
 
 ```powershell
@@ -42,4 +35,4 @@ Swagger adresi:
 http://localhost:5000/swagger
 ```
 
-Henüz controller oluşturulmadığı için Swagger ekranında `No operations defined in spec!` mesajının görünmesi normaldir.
+Henüz controller oluşturulmadığı için Swagger ekranında `No operations defined in spec!` mesajının görünüyor
