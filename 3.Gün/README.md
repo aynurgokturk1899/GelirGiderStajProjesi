@@ -35,4 +35,4 @@ Swagger adresi:
 http://localhost:5000/swagger
 ```
 
-Henüz controller oluşturulmadığı için Swagger ekranında `No operations defined in spec!` mesajının görünüyor
+Henüz controller oluşturulmadığı için Swagger ekranında `No operations defined in spec!` mesajını görünüyor
