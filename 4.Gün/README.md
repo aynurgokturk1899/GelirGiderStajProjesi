@@ -20,15 +20,6 @@ Bu klasör, 3. günde oluşturulan ASP.NET Core Web API altyapısının üzerine
 - Her işlem yalnızca kendi kullanıcısına ait ve aynı türdeki kategoriyle eşleştirilir.
 - Bir kullanıcının birden fazla yenileme anahtarı olabilir.
 
-## Bu aşamaya dahil olmayanlar
-
-- Migration oluşturma ve veritabanını fiziksel olarak kurma
-- Repository ve servis sınıfları
-- Controller ve CRUD endpoint'leri
-- Kimlik doğrulama endpoint'leri
-
-Migration işlemleri 5. gün kapsamında gerçekleştirilecektir.
-
 ## Derleme
 
 ```powershell
@@ -36,5 +27,3 @@ cd 4.Gün
 dotnet restore
 dotnet build
 ```
-
-Bağlantı cümlesindeki `Server` değerini kendi SQL Server kurulumunuza göre düzenleyebilirsiniz.
