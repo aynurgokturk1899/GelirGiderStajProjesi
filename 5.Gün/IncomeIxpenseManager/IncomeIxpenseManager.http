@@ -1,0 +1,6 @@
+@IncomeIxpenseManager_HostAddress = http://localhost:5000
+
+GET {{IncomeIxpenseManager_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
