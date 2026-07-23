@@ -1,0 +1,38 @@
+@IncomeIxpenseManager_HostAddress = http://localhost:5000
+
+GET {{IncomeIxpenseManager_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+POST {{IncomeIxpenseManager_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Kullanıcı",
+  "email": "test@example.com",
+  "password": "Test1234",
+  "confirmPassword": "Test1234"
+}
+
+###
+
+@AccessToken = TOKEN_DEGERINI_BURAYA_YAPISTIRIN
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/categories
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+POST {{IncomeIxpenseManager_HostAddress}}/api/categories
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "Maaş",
+  "type": 1
+}
+
+###
