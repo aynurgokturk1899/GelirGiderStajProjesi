@@ -1,0 +1,115 @@
+@IncomeIxpenseManager_HostAddress = http://localhost:5000
+
+GET {{IncomeIxpenseManager_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+POST {{IncomeIxpenseManager_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Kullanıcı",
+  "email": "test@example.com",
+  "password": "Test1234",
+  "confirmPassword": "Test1234"
+}
+
+###
+
+@AccessToken = TOKEN_DEGERINI_BURAYA_YAPISTIRIN
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/categories
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/categories?isActive=false
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+POST {{IncomeIxpenseManager_HostAddress}}/api/categories
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "Maaş",
+  "type": 1
+}
+
+###
+
+@CategoryId = 1
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/transactions?categoryId={{CategoryId}}&startDate=2026-07-01&endDate=2026-07-31
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/transactions?categoryType=2&startDate=2026-07-01&endDate=2026-07-31
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+@TransactionId = 1
+
+GET {{IncomeIxpenseManager_HostAddress}}/api/transactions/{{TransactionId}}
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+PUT {{IncomeIxpenseManager_HostAddress}}/api/categories/{{CategoryId}}
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "Aylık Maaş",
+  "type": 1
+}
+
+###
+
+DELETE {{IncomeIxpenseManager_HostAddress}}/api/categories/{{CategoryId}}
+Authorization: Bearer {{AccessToken}}
+
+###
+
+POST {{IncomeIxpenseManager_HostAddress}}/api/transactions
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "categoryId": {{CategoryId}},
+  "type": 1,
+  "amount": 25000.00,
+  "transactionDate": "2026-07-27",
+  "description": "Temmuz ayı maaşı"
+}
+
+###
+
+PUT {{IncomeIxpenseManager_HostAddress}}/api/transactions/{{TransactionId}}
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "categoryId": {{CategoryId}},
+  "type": 1,
+  "amount": 27500.00,
+  "transactionDate": "2026-07-28",
+  "description": "Güncellenmiş maaş kaydı"
+}
+
+###
+
+DELETE {{IncomeIxpenseManager_HostAddress}}/api/transactions/{{TransactionId}}
+Authorization: Bearer {{AccessToken}}
+
+###
