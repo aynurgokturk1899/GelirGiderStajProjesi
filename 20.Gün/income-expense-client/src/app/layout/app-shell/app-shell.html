@@ -1,0 +1,36 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/dashboard" aria-label="Bütçem ana sayfa">
+      <span class="brand-mark">B</span>
+      <span>Bütçem</span>
+    </a>
+
+    <nav aria-label="Ana menü">
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <span aria-hidden="true">⌂</span> Genel Bakış
+      </a>
+      <a routerLink="/transactions" routerLinkActive="active">
+        <span aria-hidden="true">↔</span> İşlemler
+      </a>
+      <a routerLink="/categories" routerLinkActive="active">
+        <span aria-hidden="true">▦</span> Kategoriler
+      </a>
+    </nav>
+
+    <div class="profile">
+      <span class="avatar">{{ user()?.firstName?.charAt(0) }}{{ user()?.lastName?.charAt(0) }}</span>
+      <span class="profile-details"><strong>{{ user()?.firstName }} {{ user()?.lastName }}</strong><small>{{ user()?.email }}</small></span>
+      <button class="logout" type="button" (click)="logout()" title="Çıkış yap" aria-label="Çıkış yap">⇥</button>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><strong>Merhaba, {{ user()?.firstName }}</strong><span>Gelir ve giderlerinizi kolayca yönetin.</span></div>
+      <span class="secure-badge"><i></i> Güvenli oturum</span>
+    </header>
+    <div class="page-content">
+      <router-outlet />
+    </div>
+  </main>
+</div>

@@ -1,0 +1,28 @@
+<main class="auth-page">
+  <section class="auth-story">
+    <a class="brand" routerLink="/login"><span>B</span> Bütçem</a>
+    <div><p class="eyebrow">YENİ BİR BAŞLANGIÇ</p><h1>Bütçenizi bugünden planlayın.</h1><p>Kişisel finansınızı sade, anlaşılır ve güvenli bir şekilde takip etmeye başlayın.</p></div>
+    <small>Hesap oluşturmak ücretsizdir.</small>
+  </section>
+  <section class="auth-form-panel register-panel">
+    <div class="form-card">
+      <header><p>Aramıza katılın</p><h2>Yeni hesap oluşturun</h2></header>
+      @if (errorMessage()) { <div class="alert" role="alert">{{ errorMessage() }}</div> }
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <div class="field-row">
+          <label>Ad<input type="text" formControlName="firstName" placeholder="Adınız" autocomplete="given-name" /></label>
+          <label>Soyad<input type="text" formControlName="lastName" placeholder="Soyadınız" autocomplete="family-name" /></label>
+        </div>
+        @if ((form.controls.firstName.touched && form.controls.firstName.invalid) || (form.controls.lastName.touched && form.controls.lastName.invalid)) { <small class="error">Ad ve soyad alanları zorunludur.</small> }
+        <label>E-posta adresi<input type="email" formControlName="email" placeholder="ornek@mail.com" autocomplete="email" /></label>
+        @if (form.controls.email.touched && form.controls.email.invalid) { <small class="error">Geçerli bir e-posta adresi giriniz.</small> }
+        <label>Parola<input type="password" formControlName="password" placeholder="En az 8 karakter" autocomplete="new-password" /></label>
+        @if (form.controls.password.touched && form.controls.password.invalid) { <small class="error">En az 8 karakter, büyük/küçük harf ve rakam kullanın.</small> }
+        <label>Parola tekrarı<input type="password" formControlName="confirmPassword" placeholder="Parolanızı tekrar girin" autocomplete="new-password" /></label>
+        @if (form.controls.confirmPassword.touched && form.hasError('passwordsMismatch')) { <small class="error">Parolalar eşleşmiyor.</small> }
+        <button class="submit" type="submit" [disabled]="isSubmitting()">{{ isSubmitting() ? 'Hesap oluşturuluyor…' : 'Hesap oluştur' }}</button>
+      </form>
+      <p class="switch">Zaten hesabınız var mı? <a routerLink="/login">Giriş yapın</a></p>
+    </div>
+  </section>
+</main>

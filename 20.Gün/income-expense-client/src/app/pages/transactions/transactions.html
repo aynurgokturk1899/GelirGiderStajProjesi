@@ -1,0 +1,62 @@
+<section class="transactions-page">
+  <header class="page-heading">
+    <div><span class="eyebrow">HAREKETLER</span><h1>İşlemler</h1><p>Gelir ve gider hareketlerinizi tek ekrandan takip edin.</p></div>
+    <div class="heading-actions"><button class="refresh" type="button" (click)="loadTransactions()" [disabled]="isLoading()">↻ Yenile</button><button class="primary" type="button" (click)="openCreateForm()">+ Yeni işlem</button></div>
+  </header>
+
+  <section class="list-summary" aria-label="Liste özeti">
+    <div><span>Gösterilen işlem</span><strong>{{ filteredTransactions().length }}</strong></div>
+    <div><span>Toplam gelir</span><strong class="income-value">{{ totalIncome() | currency:'TRY':'symbol-narrow':'1.2-2' }}</strong></div>
+    <div><span>Toplam gider</span><strong class="expense-value">{{ totalExpense() | currency:'TRY':'symbol-narrow':'1.2-2' }}</strong></div>
+  </section>
+
+  @if (successMessage()) { <div class="success" role="status"><span>✓ {{ successMessage() }}</span><button type="button" (click)="successMessage.set('')">×</button></div> }
+
+  <form class="filter-panel" [formGroup]="filterForm" (ngSubmit)="loadTransactions()">
+    <div class="search-field"><span>⌕</span><input type="search" formControlName="search" (input)="applySearch()" placeholder="Kategori veya açıklama ara" aria-label="İşlemlerde ara" /></div>
+    <div class="filter-row">
+      <label><span>İşlem türü</span><select formControlName="type"><option value="">Tüm türler</option><option value="1">Gelir</option><option value="2">Gider</option></select></label>
+      <label><span>Kategori</span><select formControlName="categoryId"><option value="">Tüm kategoriler</option>@for (category of categories(); track category.id) { <option [value]="category.id">{{ category.name }}</option> }</select></label>
+      <label><span>Başlangıç</span><input type="date" formControlName="startDate" /></label>
+      <label><span>Bitiş</span><input type="date" formControlName="endDate" /></label>
+      <div class="filter-actions"><button class="apply" type="submit">Uygula</button><button class="clear" type="button" (click)="clearFilters()">Temizle</button></div>
+    </div>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="alert"><span>{{ errorMessage() }}</span><button type="button" (click)="loadTransactions()">Tekrar dene</button></div>
+  } @else if (isLoading()) {
+    <div class="state"><span class="spinner"></span><strong>İşlemler yükleniyor</strong><span>Finansal hareketleriniz hazırlanıyor.</span></div>
+  } @else if (filteredTransactions().length === 0) {
+    <div class="state"><span class="state-icon">↔</span><strong>İşlem bulunamadı</strong><span>Filtreleri temizleyin veya ilk işleminizi ekleyin.</span><button type="button" (click)="clearFilters()">Filtreleri temizle</button></div>
+  } @else {
+    <div class="table-card">
+      <div class="table-title"><div><strong>İşlem geçmişi</strong><span>En yeni işlemler önce gösterilir.</span></div><span>{{ filteredTransactions().length }} sonuç</span></div>
+      <div class="table-scroll"><table><thead><tr><th>İşlem</th><th>Tarih</th><th>Açıklama</th><th>Tür</th><th class="amount">Tutar</th><th><span class="sr-only">İşlemler</span></th></tr></thead><tbody>
+        @for (transaction of pagedTransactions(); track transaction.id) {
+          <tr><td><div class="category-cell"><span class="transaction-icon" [class.income]="isIncome(transaction.type)">{{ isIncome(transaction.type) ? '↗' : '↘' }}</span><span><strong>{{ transaction.categoryName }}</strong><small>#{{ transaction.id }}</small></span></div></td><td>{{ transaction.transactionDate | date:'dd MMM yyyy' }}</td><td class="description">{{ transaction.description || 'Açıklama yok' }}</td><td><span class="type" [class.income]="isIncome(transaction.type)">{{ isIncome(transaction.type) ? 'Gelir' : 'Gider' }}</span></td><td class="amount" [class.income-amount]="isIncome(transaction.type)">{{ isIncome(transaction.type) ? '+' : '−' }}{{ transaction.amount | currency:'TRY':'symbol-narrow':'1.2-2' }}</td><td><div class="row-actions"><button type="button" title="Düzenle" (click)="openEditForm(transaction)">✎</button><button class="danger" type="button" title="Sil" (click)="deleteTransaction(transaction)">⌫</button></div></td></tr>
+        }
+      </tbody></table></div>
+      <footer class="pagination"><span>{{ currentPage() }} / {{ totalPages() }}. sayfa</span><div><button type="button" (click)="previousPage()" [disabled]="currentPage() === 1">← Önceki</button><button type="button" (click)="nextPage()" [disabled]="currentPage() === totalPages()">Sonraki →</button></div></footer>
+    </div>
+  }
+
+  @if (isFormOpen()) {
+    <div class="modal-backdrop" (mousedown)="closeForm()">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="transaction-form-title" (mousedown)="$event.stopPropagation()">
+        <header><div><span class="eyebrow">{{ editingTransaction() ? 'İŞLEMİ DÜZENLE' : 'YENİ HAREKET' }}</span><h2 id="transaction-form-title">{{ editingTransaction() ? 'İşlemi güncelle' : 'Yeni işlem ekle' }}</h2></div><button class="modal-close" type="button" (click)="closeForm()" aria-label="Kapat">×</button></header>
+        <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()">
+          @if (formError()) { <div class="form-alert" role="alert">{{ formError() }}</div> }
+          <div class="type-picker"><label><input type="radio" formControlName="type" [value]="1" (change)="onTypeChange()"><span class="income-choice">↗ Gelir</span></label><label><input type="radio" formControlName="type" [value]="2" (change)="onTypeChange()"><span class="expense-choice">↘ Gider</span></label></div>
+          <div class="form-grid">
+            <label class="field"><span>Kategori</span><select formControlName="categoryId"><option [ngValue]="0" disabled>Kategori seçin</option>@for (category of availableCategories(); track category.id) { <option [ngValue]="category.id">{{ category.name }}</option> }</select>@if (transactionForm.controls.categoryId.touched && transactionForm.controls.categoryId.invalid) { <small>Kategori seçmelisiniz.</small> }</label>
+            <label class="field"><span>Tutar (₺)</span><input type="number" min="0.01" step="0.01" formControlName="amount" placeholder="0,00">@if (transactionForm.controls.amount.touched && transactionForm.controls.amount.invalid) { <small>0'dan büyük bir tutar girin.</small> }</label>
+            <label class="field"><span>İşlem tarihi</span><input type="date" formControlName="transactionDate">@if (transactionForm.controls.transactionDate.touched && transactionForm.controls.transactionDate.invalid) { <small>Tarih zorunludur.</small> }</label>
+            <label class="field full"><span>Açıklama <em>isteğe bağlı</em></span><textarea rows="4" maxlength="500" formControlName="description" placeholder="İşlemle ilgili kısa bir not..."></textarea><small class="counter">{{ transactionForm.controls.description.value.length }}/500</small></label>
+          </div>
+          <footer><button class="cancel" type="button" (click)="closeForm()">Vazgeç</button><button class="save" type="submit" [disabled]="isSaving()">{{ isSaving() ? 'Kaydediliyor…' : (editingTransaction() ? 'Değişiklikleri kaydet' : 'İşlemi ekle') }}</button></footer>
+        </form>
+      </section>
+    </div>
+  }
+</section>

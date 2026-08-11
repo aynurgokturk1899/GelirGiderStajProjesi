@@ -1,0 +1,41 @@
+<section class="categories-page">
+  <header class="page-heading">
+    <div><span class="eyebrow">DÜZEN</span><h1>Kategoriler</h1><p>Gelir ve giderlerinizi gruplara ayırarak bütçenizi daha kolay takip edin.</p></div>
+    <button type="button" (click)="openCreateForm()">+ Kategori ekle</button>
+  </header>
+
+  @if (successMessage()) { <div class="success" role="status"><span>✓ {{ successMessage() }}</span><button type="button" (click)="successMessage.set('')">×</button></div> }
+
+  @if (errorMessage()) {
+    <div class="alert" role="alert"><span>{{ errorMessage() }}</span><button type="button" (click)="loadCategories()">Tekrar dene</button></div>
+  } @else if (isLoading()) {
+    <div class="state-card"><span class="spinner"></span><p>Kategoriler yükleniyor…</p></div>
+  } @else if (categories().length === 0) {
+    <div class="state-card"><span class="empty-icon">▦</span><h2>Henüz kategori yok</h2><p>İlk gelir veya gider kategorinizi ekleyerek başlayın.</p></div>
+  } @else {
+    <section class="overview" aria-label="Kategori özeti"><button type="button" [class.active]="selectedType() === 'all'" (click)="setType('all')"><strong>{{ categories().length }}</strong><span>Tüm kategoriler</span></button><button type="button" [class.active]="selectedType() === 1" (click)="setType(1)"><strong class="income-text">{{ incomeCount() }}</strong><span>Gelir kategorisi</span></button><button type="button" [class.active]="selectedType() === 2" (click)="setType(2)"><strong class="expense-text">{{ expenseCount() }}</strong><span>Gider kategorisi</span></button></section>
+    <div class="category-summary"><strong>{{ visibleCategories().length }}</strong><span>kategori gösteriliyor</span></div>
+    <div class="category-grid">
+      @for (category of visibleCategories(); track category.id) {
+        <article [class.inactive]="!category.isActive">
+          <span class="category-icon" [class.income]="isIncome(category.type)">{{ isIncome(category.type) ? '↗' : '↘' }}</span>
+          <div class="category-info"><h2>{{ category.name }}</h2><span [class.income-text]="isIncome(category.type)" [class.expense-text]="!isIncome(category.type)">{{ typeLabel(category.type) }}</span></div>
+          <span class="status" [class.passive]="!category.isActive">{{ category.isActive ? 'Aktif' : 'Pasif' }}</span>
+          <div class="card-actions"><button type="button" title="Düzenle" (click)="openEditForm(category)">✎</button><button class="danger" type="button" title="Sil" (click)="deleteCategory(category)">⌫</button></div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (isFormOpen()) {
+    <div class="modal-backdrop" (mousedown)="closeForm()"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="category-form-title" (mousedown)="$event.stopPropagation()">
+      <header><div><span class="eyebrow">KATEGORİ YÖNETİMİ</span><h2 id="category-form-title">{{ editingCategory() ? 'Kategoriyi düzenle' : 'Yeni kategori ekle' }}</h2><p>İşlemlerinizi düzenlemek için kısa ve anlaşılır bir ad kullanın.</p></div><button class="modal-close" type="button" (click)="closeForm()" aria-label="Kapat">×</button></header>
+      <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+        @if (formError()) { <div class="form-alert" role="alert">{{ formError() }}</div> }
+        <label class="field"><span>Kategori adı</span><input type="text" maxlength="100" formControlName="name" placeholder="Örn. Market, Maaş, Ulaşım" autofocus>@if (categoryForm.controls.name.touched && categoryForm.controls.name.invalid) { <small>Geçerli bir kategori adı girin.</small> }</label>
+        <fieldset><legend>Kategori türü</legend><div class="type-picker"><label><input type="radio" formControlName="type" [value]="1"><span class="income-choice">↗<strong>Gelir</strong><small>Hesabınıza giren para</small></span></label><label><input type="radio" formControlName="type" [value]="2"><span class="expense-choice">↘<strong>Gider</strong><small>Hesabınızdan çıkan para</small></span></label></div></fieldset>
+        <footer><button class="cancel" type="button" (click)="closeForm()">Vazgeç</button><button class="save" type="submit" [disabled]="isSaving()">{{ isSaving() ? 'Kaydediliyor…' : (editingCategory() ? 'Değişiklikleri kaydet' : 'Kategoriyi ekle') }}</button></footer>
+      </form>
+    </section></div>
+  }
+</section>

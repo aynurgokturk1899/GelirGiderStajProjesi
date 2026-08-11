@@ -1,0 +1,9 @@
+.placeholder-page { max-width: 980px; }
+.eyebrow { color: #23825f; font-size: .78rem; font-weight: 750; letter-spacing: .12em; }
+h1 { margin: 8px 0; color: #172a24; font-size: 2rem; }
+.placeholder-page > p { color: #6d7d77; margin-top: 0; }
+.empty-state { margin-top: 30px; min-height: 280px; border: 1px dashed #bbcbc5; border-radius: 18px; background: #fff; display: grid; place-items: center; align-content: center; text-align: center; padding: 24px; }
+.empty-state > span { font-size: 2rem; color: #23825f; }
+.empty-state h2 { margin: 12px 0 4px; color: #20362f; }
+.empty-state p { margin: 0 0 18px; color: #74837e; }
+.empty-state button { border: 0; border-radius: 10px; padding: 11px 17px; background: #23825f; color: #fff; font-weight: 650; }

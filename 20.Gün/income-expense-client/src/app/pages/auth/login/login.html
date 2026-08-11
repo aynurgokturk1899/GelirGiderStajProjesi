@@ -1,0 +1,21 @@
+<main class="auth-page">
+  <section class="auth-story">
+    <a class="brand" routerLink="/login"><span>B</span> Bütçem</a>
+    <div><p class="eyebrow">FİNANSAL ÖZGÜRLÜK</p><h1>Paranızın kontrolü yeniden sizde.</h1><p>Gelirlerinizi, giderlerinizi ve bütçenizi tek bir güvenli alandan yönetin.</p></div>
+    <small>Basit. Güvenli. Size özel.</small>
+  </section>
+  <section class="auth-form-panel">
+    <div class="form-card">
+      <header><p>Tekrar hoş geldiniz</p><h2>Hesabınıza giriş yapın</h2></header>
+      @if (errorMessage()) { <div class="alert" role="alert">{{ errorMessage() }}</div> }
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <label>E-posta adresi<input type="email" formControlName="email" placeholder="ornek@mail.com" autocomplete="email" /></label>
+        @if (form.controls.email.touched && form.controls.email.invalid) { <small class="error">Geçerli bir e-posta adresi giriniz.</small> }
+        <label>Parola<input type="password" formControlName="password" placeholder="Parolanız" autocomplete="current-password" /></label>
+        @if (form.controls.password.touched && form.controls.password.invalid) { <small class="error">Parola alanı zorunludur.</small> }
+        <button class="submit" type="submit" [disabled]="isSubmitting()">{{ isSubmitting() ? 'Giriş yapılıyor…' : 'Giriş yap' }}</button>
+      </form>
+      <p class="switch">Henüz hesabınız yok mu? <a routerLink="/register">Ücretsiz hesap oluşturun</a></p>
+    </div>
+  </section>
+</main>

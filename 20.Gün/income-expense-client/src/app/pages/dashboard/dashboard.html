@@ -1,0 +1,11 @@
+<section class="page-heading"><div><p class="eyebrow">GENEL BAKIŞ</p><h1>Finansal durumunuz</h1><span>Gelir, gider ve bakiyenizin güncel görünümü.</span></div><button class="primary" type="button" routerLink="/transactions" [queryParams]="{ new: 'true' }"><b>+</b> Yeni işlem</button></section>
+@if (hasError()) { <div class="dashboard-alert">Bazı finansal veriler yüklenemedi.</div> }
+<section class="summary-grid" aria-label="Finansal özet">
+  <article><div class="card-title"><span class="metric-icon income-icon">↗</span><span>Toplam gelir</span></div><strong>{{ summary().totalIncome | currency:'TRY':'symbol-narrow':'1.2-2' }}</strong><small class="income">Tüm zamanlar</small></article>
+  <article><div class="card-title"><span class="metric-icon expense-icon">↘</span><span>Toplam gider</span></div><strong>{{ summary().totalExpense | currency:'TRY':'symbol-narrow':'1.2-2' }}</strong><small class="expense">Tüm zamanlar</small></article>
+  <article class="balance"><div class="card-title"><span class="metric-icon balance-icon">₺</span><span>Güncel bakiye</span></div><strong>{{ summary().balance | currency:'TRY':'symbol-narrow':'1.2-2' }}</strong><small>Gelir − gider</small></article>
+</section>
+<section class="panel"><div class="panel-heading"><div><h2>Son işlemler</h2><p>En güncel finansal hareketleriniz.</p></div><a routerLink="/transactions">Tümünü gör →</a></div>
+  @if (recentTransactions().length === 0) { <div class="empty">Henüz bir gelir veya gider kaydı eklenmedi.</div> }
+  @else { <div class="recent-list">@for (transaction of recentTransactions(); track transaction.id) { <div><span class="recent-icon">{{ transaction.type === 1 ? '↗' : '↘' }}</span><span><strong>{{ transaction.categoryName }}</strong><small>{{ transaction.transactionDate | date:'dd MMM yyyy' }}</small></span><b [class.income-value]="transaction.type === 1">{{ transaction.type === 1 ? '+' : '−' }}{{ transaction.amount | currency:'TRY':'symbol-narrow':'1.2-2' }}</b></div> }</div> }
+</section>
